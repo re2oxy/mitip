@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>good!</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+</head>
+
+<body>
+{% verbatim %}
+<div id="app">
+    <div>
+      <div>
+        <div class="form">
+          <h1>Scrum Board</h1>
+
+          <div name="task">
+            <input type="text" v-model="inputText" id="task" placeholder="Type Text"/>
+          <button v-on:click="createTask()" class="button" id="add-button">{{ btnText }}</button>
+          </div>
+
+        </div>
+        <div class="flex">
+          <div class="scrum-board backlog">
+            <h2>Backlog</h2>
+              <div class="input-group overflow" v-for="task in tBacklog" v-bind:id="task.id">
+                  <span v-bind:class="task.classTask" id="span0" v-on:click="chooseTask(task.id)">{{ task.text }}</span>
+                  <div class="margin-top-10">
+                    <button class="button button-backlog" id="0" style="text-decoration: underline">Backlog</button>
+                    <button class="button button-progress" :class="task.id" v-on:click="changeToProgress(task.id)" id="0">In Progress</button>
+                    <button class="button button-done" :class="task.id" v-on:click="changeToDone(task.id)" id="0">Done</button>
+                    <button v-on:click="deleteTask(task.id)" class="button button-delete" :class="task.id" id="0">Delete</button>
+                </div>
+              </div>
+          </div>
+
+          <div class="scrum-board in-progress">
+            <h2>In progress</h2>
+              <div class="input-group overflow" v-for="task in tInProgress" v-bind:id="task.id">
+                  <span v-bind:class="task.classTask" v-on:click="chooseTask(task.id)" id="span0">{{ task.text }}</span>
+                  <div class="margin-top-10">
+                    <button class="button button-backlog" :class="task.id" v-on:click="changeToBacklog(task.id)" id="0" >Backlog</button>
+                    <button class="button button-progress" id="0" style="text-decoration: underline">In Progress</button>
+                    <button class="button button-done" :class="task.id" v-on:click="changeToDone(task.id)" id="0">Done</button>
+                    <button v-on:click="deleteTask(task.id)" class="button button-delete" :class="task.id" id="0">Delete</button>
+                </div>
+              </div>
+          </div>
+
+          <div class="scrum-board done">
+            <h2>Done</h2>
+              <div class="input-group overflow" v-for="task in tDone" v-bind:id="task.id">
+                  <span v-on:click="chooseTask(task.id)" v-bind:class="task.classTask" id="span0">{{ task.text }}</span>
+                  <div class="margin-top-10">
+                    <button class="button button-backlog" :class="task.id" v-on:click="changeToBacklog(task.id)" id="0">Backlog</button>
+                    <button class="button button-progress" :class="task.id" v-on:click="changeToProgress(task.id)" id="0">In Progress</button>
+                    <button class="button button-done" id="0" style="   text-decoration: underline">Done</button>
+                    <button v-on:click="deleteTask(task.id)" class="button button-delete" :class="task.id" id="0">Delete</button>
+                </div>
+              </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+</div>
+{% endverbatim %}
+<script src="/static/js/app.js"></script>
+
+</body>
